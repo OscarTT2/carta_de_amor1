@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Amor para Lorena</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        .heart {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: relative;
+            transform: rotate(-45deg);
+            margin: 50px auto;
+            cursor: pointer;
+            animation: pulse 1s infinite;
+        }
+        .heart::before, .heart::after {
+            content: "";
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1) rotate(-45deg); }
+            50% { transform: scale(1.1) rotate(-45deg); }
+            100% { transform: scale(1) rotate(-45deg); }
+        }
+        .message, .card, .buttons {
+            display: none;
+            font-size: 24px;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .card {
+            background: white;
+            border: 2px solid black;
+            padding: 20px;
+            width: 300px;
+        }
+        .btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Asegúrate de que la música esté en la misma carpeta o modifica la ruta -->
+    <audio id="bgMusic" loop autoplay muted>
+        <source src="tu_musica.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="container">
+        <div class="heart" onclick="openHeart()"></div>
+        <div class="message" id="message">Lorena</div>
+        <button class="btn" id="viewMore" onclick="showCard()" style="display:none;">Ver más</button>
+        <div class="card" id="card"></div>
+        <div class="buttons">
+            <button class="btn" onclick="prevCard()">Anterior</button>
+            <button class="btn" onclick="nextCard()">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        let messages = [
+            "Eres la razón de mis sonrisas y el latido de mi corazón.",
+            "Tu amor ilumina mis días como el sol más brillante.",
+            "Tus abrazos son mi refugio, mi paz y mi hogar.",
+            "Cada instante a tu lado es un regalo invaluable.",
+            "Nuestro amor es eterno, escrito en las estrellas."
+        ];
+        let currentCard = 0;
+        let bgMusic = document.getElementById("bgMusic");
+
+        function openHeart() {
+            document.querySelector(".heart").style.display = "none";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("viewMore").style.display = "block";
+            document.getElementById("message").style.opacity = "1";
+            document.getElementById("viewMore").style.opacity = "1";
+            bgMusic.play();
+        }
+
+        function showCard() {
+            document.getElementById("message").style.display = "none";
+            document.getElementById("viewMore").style.display = "none";
+            document.getElementById("card").style.display = "block";
+            document.querySelector(".buttons").style.display = "block";
+            document.getElementById("card").innerText = messages[currentCard];
+            document.getElementById("card").style.opacity = "1";
+            document.querySelector(".buttons").style.opacity = "1";
+        }
+
+        function nextCard() {
+            currentCard = (currentCard + 1) % messages.length;
+            document.getElementById("card").innerText = messages[currentCard];
+        }
+
+        function prevCard() {
+            currentCard = (currentCard - 1 + messages.length) % messages.length;
+            document.getElementById("card").innerText = messages[currentCard];
+        }
+    </script>
+</body>
+</html>
